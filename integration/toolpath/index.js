@@ -1,10 +1,13 @@
 var potrace = require('potrace'),
     fs = require('fs');
 
-potrace.trace('./input.jpg', function(err, svg) {
+var args = process.argv.slice(2);
+
+
+/*potrace.trace('./' + args[0], function(err, svg) {
   if (err) throw err;
   fs.writeFileSync('./output.svg', svg);
-});
+});*/
 
 
 const puppeteer = require('puppeteer');
@@ -17,12 +20,12 @@ function delay(timeout) {
 
 (async () => {
   const browser = await puppeteer.launch({
-	headless: false
+	headless: true
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 3000, height: 1000 });
   await page._client.send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: './'});
-  await page.goto('file:///home/jon/auto-a-sketch/node/jscut/jscut.html');
+  await page.goto('file:///home/jon/auto-a-sketch/integration/toolpath/jscut/jscut.html');
 
   
 
@@ -43,13 +46,18 @@ function delay(timeout) {
   if (create_operation)
     await create_operation.click();
 
-  await page.screenshot({path: 'webpage1.png'});
+  await delay(500);
+  //await page.screenshot({path: 'webpage1.png'});
 
   generate_operation = (await page.$x("//a[@id='opGenerate']"))[0];
   if (generate_operation)
     await generate_operation.click();
 
-  await page.waitForFunction('document.getElementById("AlertNum6") != null');
+  await delay(500);
+
+  await page.waitForFunction('document.getElementsByClassName("alert-info")[0].innerHTML.includes("Save your gcode");');
+//await page.waitForFunction('document.getElementById("AlertNum6") != null');
+  
   await delay(500);
 
   /*simulate_tab = (await page.$x("//a[@href='#simulatePanel']"))[0];
@@ -60,9 +68,9 @@ function delay(timeout) {
    if (save_button)
 	await save_button.click();
 
-   //await delay(5000);
+   await delay(1000);
 
-   await page.screenshot({path: 'webpage2.png'});
+   //await page.screenshot({path: 'webpage2.png'});
 
    save_gcode = (await page.$x("//button[@id='saveGcodeLocalFile']"))[0];
    if (save_gcode)
@@ -71,5 +79,5 @@ function delay(timeout) {
    await delay(2000);
 
 
-  //await browser.close();
+  await browser.close();
 })();

@@ -5,7 +5,7 @@
 FILE * process;
 
 // prototype for move_cursor function
-void move_cursor(uint16_t x, uint16_t y);
+void move_cursor(double x, double y);
 
 int main () {
 	
@@ -14,9 +14,10 @@ int main () {
 
 	
 	// feed the function commands to move the simulated cursor
-	int i;
-	for (i = 0; i < 640; i++) {
+	double i;
+	for (i = -2.0; i < 2.0; i+=0.05) {
 		move_cursor(i, i);
+
 		usleep(5000);
 	}
 	fclose(process);
@@ -25,8 +26,8 @@ int main () {
 }
 
 
-void move_cursor(uint16_t x, uint16_t y) {
+void move_cursor(double x, double y) {
 
-	fprintf(process, "%d,%d\n", x, y);
+	fprintf(process, "%f,%f\n", x, y);
 
 }
