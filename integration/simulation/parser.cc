@@ -13,6 +13,9 @@ using namespace std;
 double XLOC = 0;
 double YLOC = 0;
 double pi = 3.14159;
+double scale = 0;
+double xshift = 0;
+double yshift = 0;
 fstream outfilex;
 fstream outfiley;
 
@@ -44,6 +47,57 @@ int main (int argc, char* argv[])
   outfiley.open("outy2.txt", fstream::out);*/
 
 
+  
+  ifstream file(argv[1]);
+  if(!file){
+    printf("invalid file name");
+    return 1;
+  }
+  
+  scale = 0;
+  xshift = 0;
+  yshift = 0;
+	
+  while(file.getline(line, 255)){
+    pch = strtok (line," ,.-");
+    G = -1;
+    X = -1.73987425;
+    Y = -1.73987425;
+    I = 0;
+    J = 0;
+    while (pch != NULL)
+    { 
+      len = strlen(pch);
+      if(pch[0] == 88){//X = 88
+        value = pch + 1;
+        number = atof(value);
+        if(number>xmax)
+          xmax = number;
+        else if(number<xmin)
+          xmin = number;
+      }
+      else if(pch[0] == 89){//Y = 89
+        value = pch + 1;
+        number = atof(value);
+        if(number>ymax)
+          ymax = number;
+        else if(number<ymin)
+          ymin = number;
+      }
+      i++;
+      pch = strtok (NULL, " ");
+    }
+    i = 0;
+  }
+
+  file.close();
+	
+  scale = 1500/(xmax-xmin);
+  if(1000/(ymax-ymin)<scale)
+    scale = 1000/(ymax-ymin);
+  xshift = 0-xmin+50/scale;
+  yshift = 0-ymin+50/scale;
+	
   ifstream in(argv[1]);
   if(!in){
     printf("invalid file name");
@@ -117,7 +171,8 @@ int main (int argc, char* argv[])
 int count = 0;
 
 void move_cursor(double x, double y) {
-
+	x = (x+xshift)*scale;
+	y = (y+yshift)*scale;
 	if (count % 50 == 49) {
 		fprintf(process, "%f,%f\n", x, y);
 		count = 0;
