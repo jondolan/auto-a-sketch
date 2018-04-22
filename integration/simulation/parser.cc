@@ -35,8 +35,8 @@ int main (int argc, char* argv[])
   char * value;
   double G, X, Y, I, J;
   int i = 0;
-  double xmax = 0;
-  double ymax = 0;
+  double xmax = -99999;
+  double ymax = -99999;
   double xmin = 9999;
   double ymin = 9999;
   double scale = 0;
