@@ -95,8 +95,8 @@ int main (int argc, char* argv[])
   scale = 1500/(xmax-xmin);
   if(1000/(ymax-ymin)<scale)
     scale = 1000/(ymax-ymin);
-  xshift = 0-xmin+50/scale;
-  yshift = 0-ymin+50/scale;
+  xshift = 0-xmin;
+  yshift = 0-ymin;
 	
   ifstream in(argv[1]);
   if(!in){
@@ -171,8 +171,8 @@ int main (int argc, char* argv[])
 int count = 0;
 
 void move_cursor(double x, double y) {
-	x = (x+xshift)*scale;
-	y = (y+yshift)*scale;
+	x = (x+xshift)*scale+50;
+	y = (y+yshift)*scale+50;
 	if (count % 50 == 49) {
 		fprintf(process, "%f,%f\n", x, y);
 		count = 0;
