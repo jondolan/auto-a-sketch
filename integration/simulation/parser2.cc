@@ -16,6 +16,7 @@ double pi = 3.14159;
 double scale = 0;
 double xshift = 0;
 double yshift = 0;
+int count = 0;
 fstream outfilex;
 fstream outfiley;
 
@@ -39,8 +40,8 @@ int main (int argc, char* argv[])
   double number;
   char line[256];
   int len;
-  outfilex.open("outx2.txt", fstream::out);
-  outfiley.open("outy2.txt", fstream::out);
+  /*outfilex.open("outx2.txt", fstream::out);
+  outfiley.open("outy2.txt", fstream::out);*/
 
 
   ifstream file(argv[1]);
@@ -48,6 +49,8 @@ int main (int argc, char* argv[])
     printf("invalid file name");
     return 1;
   }
+  
+  
   while(file.getline(line, 255)){
     pch = strtok (line," ,.-");
     G = -1;
@@ -144,8 +147,8 @@ int main (int argc, char* argv[])
     }
   }
   in.close();
-  outfilex.close();
-  outfiley.close();
+  /*outfilex.close();
+  outfiley.close();*/
 
 
   cout<<"xmin: " << xmin << "\n";
@@ -158,10 +161,10 @@ int main (int argc, char* argv[])
 void move_cursor(double x,double y){
   x = (x+xshift)*scale+50;
   y = (y+yshift)*scale+50;
-  if(outfilex.is_open() and outfiley.is_open()){
-    outfilex<<(x)<<"\n";
-    outfiley<<(y)<<"\n";
-  }
+  if (count % 50 == 49) {
+		fprintf(process, "%f,%f\n", x, y);
+		count = 0;
+	} else count++;
 }
 
 void G_CODE_00(double x, double y){
