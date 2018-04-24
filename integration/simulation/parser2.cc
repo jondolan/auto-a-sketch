@@ -10,6 +10,8 @@
 #include <cstdint>
 using namespace std;
 
+FILE * process;
+
 double XLOC = 0;
 double YLOC = 0;
 double pi = 3.14159;
@@ -43,6 +45,7 @@ int main (int argc, char* argv[])
   /*outfilex.open("outx2.txt", fstream::out);
   outfiley.open("outy2.txt", fstream::out);*/
 
+  process = popen("./turtle_draw.py", "w");
 
   ifstream file(argv[1]);
   if(!file){
@@ -159,8 +162,8 @@ int main (int argc, char* argv[])
 }
 
 void move_cursor(double x,double y){
-  x = (x+xshift)*scale+50;
-  y = (y+yshift)*scale+50;
+  x = (x+xshift)*scale-500;
+  y = (y+yshift)*scale-500;
   if (count % 50 == 49) {
 		fprintf(process, "%f,%f\n", x, y);
 		count = 0;
@@ -213,7 +216,7 @@ void G_CODE_02(double X, double Y, double I, double J){
     XLOC = cos(angleS)*radius+I;
     YLOC = sin(angleS)*radius+J;
     move_cursor(XLOC,YLOC);
-    angleS = angleS-angle/25;
+    angleS = angleS-angle/50;
     //cout<< "waiting"<< "\n";
   }
   XLOC = cos(angleS)*radius+I;
@@ -240,7 +243,7 @@ void G_CODE_03(double X, double Y, double I, double J){
       XLOC = cos(angleS)*radius+I;
       YLOC = sin(angleS)*radius+J;
       move_cursor(XLOC,YLOC);
-      angleS = angleS+angle/25;
+      angleS = angleS+angle/50;
       //cout<< "waiting"<< "\n";
     }
   }
@@ -252,7 +255,7 @@ void G_CODE_03(double X, double Y, double I, double J){
       XLOC = cos(angleS)*radius+I;
       YLOC = sin(angleS)*radius+J;
       move_cursor(XLOC,YLOC);
-      angleS = angleS+angle/25;
+      angleS = angleS+angle/50;
       //cout<< "waiting"<< "\n";
     }
   }
