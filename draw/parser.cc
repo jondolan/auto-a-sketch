@@ -1,50 +1,90 @@
 // example call ./a.out file.txt
-#include <stdio.h>
-#include <string>
-#include <string.h>
-#include <cstdlib>
-#include <stdlib.h>
-#include <math.h>
-#include <iostream>
-#include <fstream>
-#include <cstdint>
+#include "parser.h"
 using namespace std;
+
+FILE * process;
 
 double XLOC = 0;
 double YLOC = 0;
-double pi = 3.14159;
-fstream outfilex;
-fstream outfiley;
+double scale = 0;
+double xshift = 0;
+double yshift = 0;
+int count = 0;
 
+int draw = 0;
+int simulate = 0;
 
-void move_cursor(double, double);
-double angleG(double, double, double, double);
-void G_CODE_00(double, double);
-void G_CODE_02(double, double, double, double);
-void G_CODE_03(double, double, double, double);
+void parse_file(char * filename, int to_draw, int to_simulate) {
 
-int main (int argc, char* argv[])
-{
+  draw = to_draw;
+  simulate = to_simulate;
+
   char * pch;
   char * value;
   double G, X, Y, I, J;
   int i = 0;
-  double xmax = 0;
-  double ymax = 0;
+  double xmax = -9999;
+  double ymax = -9999;
   double xmin = 9999;
   double ymin = 9999;
-  double scale = 0;
   double number;
   char line[256];
   int len;
-  outfilex.open("outx2.txt", fstream::out);
-  outfiley.open("outy2.txt", fstream::out);
+
+  if (simulate) process = popen("./turtle_draw.py", "w");
+
+  ifstream file(filename);
+  if(!file){
+    printf("invalid file name");
+    return;
+  }
+  
+  
+  while(file.getline(line, 255)){
+    pch = strtok (line," ,.-");
+    G = -1;
+    X = -1.73987425;
+    Y = -1.73987425;
+    I = 0;
+    J = 0;
+    while (pch != NULL)
+    { 
+      len = strlen(pch);
+      if(pch[0] == 88){//X = 88
+        value = pch + 1;
+        number = atof(value);
+        if(number>xmax)
+          xmax = number;
+        else if(number<xmin)
+          xmin = number;
+      }
+      else if(pch[0] == 89){//Y = 89
+        value = pch + 1;
+        number = atof(value);
+        if(number>ymax)
+          ymax = number;
+        else if(number<ymin)
+          ymin = number;
+      }
+      i++;
+      pch = strtok (NULL, " ");
+    }
+    i = 0;
+  }
+
+  file.close();
+
+  scale = 1500/(xmax-xmin);
+  if(1000/(ymax-ymin)<scale)
+    scale = 1000/(ymax-ymin);
+  xshift = 0-xmin;
+  yshift = 0-ymin;
 
 
-  ifstream in(argv[1]);
+  ifstream in(filename);
   if(!in){
     printf("invalid file name");
-    return 1;
+    return;
   }
   while(in.getline(line, 255)){
     pch = strtok (line," ,.-");
@@ -96,16 +136,21 @@ int main (int argc, char* argv[])
     }
   }
   in.close();
-  outfilex.close();
-  outfiley.close();
-  return 0;
+
+  cout<<"xmin: " << xmin << "\n";
+  cout<<"xmax: " << xmax << "\n";
+  cout<<"ymin: " << ymin << "\n";
+  cout<<"ymax: " << ymax << "\n";
+
 }
 
 void move_cursor(double x,double y){
-  if(outfilex.is_open() and outfiley.is_open()){
-    outfilex<<(x)<<"\n";
-    outfiley<<(y)<<"\n";
-  }
+  x = (x+xshift)*scale-500;
+  y = (y+yshift)*scale-500;
+  if (count % 50 == 49) {
+    if (simulate) fprintf(process, "%f,%f\n", x, y);
+    count = 0;
+  } else count++;
 }
 
 void G_CODE_00(double x, double y){
@@ -117,8 +162,8 @@ void G_CODE_00(double x, double y){
   relativex = realx-XLOC;
   relativey = realy-YLOC;
   for(int i = 0; i<length; i++){
-    XLOC = XLOC + relativex/100;
-    YLOC = YLOC + relativey/100;
+    XLOC = XLOC + relativex/20;
+    YLOC = YLOC + relativey/20;
     move_cursor(XLOC,YLOC);
   }
   XLOC = x;
@@ -154,7 +199,7 @@ void G_CODE_02(double X, double Y, double I, double J){
     XLOC = cos(angleS)*radius+I;
     YLOC = sin(angleS)*radius+J;
     move_cursor(XLOC,YLOC);
-    angleS = angleS-angle/100;
+    angleS = angleS-angle/50;
     //cout<< "waiting"<< "\n";
   }
   XLOC = cos(angleS)*radius+I;
@@ -181,7 +226,7 @@ void G_CODE_03(double X, double Y, double I, double J){
       XLOC = cos(angleS)*radius+I;
       YLOC = sin(angleS)*radius+J;
       move_cursor(XLOC,YLOC);
-      angleS = angleS+angle/100;
+      angleS = angleS+angle/50;
       //cout<< "waiting"<< "\n";
     }
   }
@@ -193,7 +238,7 @@ void G_CODE_03(double X, double Y, double I, double J){
       XLOC = cos(angleS)*radius+I;
       YLOC = sin(angleS)*radius+J;
       move_cursor(XLOC,YLOC);
-      angleS = angleS+angle/100;
+      angleS = angleS+angle/50;
       //cout<< "waiting"<< "\n";
     }
   }

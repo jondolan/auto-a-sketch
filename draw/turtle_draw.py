@@ -41,13 +41,16 @@ turtle.onscreenclick(pleaseexitnow)
 while 1:
 	try:
 		coords = input()
+		x = int(float(coords[0]))
+	        y = int(float(coords[1]))
+		turtle.setposition(x, y)
 	except EOFError:
-		print("Simulation ended")
+		print("nothing")
 	#print(int(coords[0]) + ", " + int(coords[1]))
 	#x = int(float(coords[0]) * (SCREEN_WIDTH/700.0)) # put in range -screen_width->screen width
 	#y = int(float(coords[1]) * (SCREEN_HEIGHT/700.0)) # put in range -screen height->screen height
-	x = int(float(coords[0]))
-	y = int(float(coords[1]))
+	#x = int(float(coords[0]))
+	#y = int(float(coords[1]))
 	#print(str(x) + "," + str(y))	
 	turtle.setposition(x, y)
 
