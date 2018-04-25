@@ -11,6 +11,8 @@ double xshift = 0;
 double yshift = 0;
 int count = 0;
 
+int x, y;
+
 int draw = 0;
 int simulate = 0;
 
@@ -149,6 +151,7 @@ void move_cursor(double x,double y){
   y = (y+yshift)*scale-500;
   if (count % 50 == 49) {
     if (simulate) fprintf(process, "%f,%f\n", x, y);
+    if (draw) gotoXY(x,y);
     count = 0;
   } else count++;
 }
@@ -247,11 +250,5 @@ void G_CODE_03(double X, double Y, double I, double J){
   move_cursor(XLOC,YLOC);
 }
 
-
-
-
-
-
-
-
-
+void step(int motor, int enable, int num) {}
+void gotoXY(int new_x, int new_y) {}

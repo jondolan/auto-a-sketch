@@ -2,6 +2,6 @@
 
 int main(int argc, char* argv[]) {
 
-	parse_file(argv[1], 1);
+	parse_file(argv[1], 0, 1);
 
 }
