@@ -167,13 +167,13 @@ void G_CODE_00(double x, double y){
   double relativex = realx-XLOC;
   double relativey = realy-YLOC;
   double dist = sqrt(relativex*relativex + relativey*relativey);
-  int length = int(dist/0.1);
+  int length = int(dist)*5;
   //if (length > 0) printf("interpolate length %d\n", length);
   if (counter > 600) { 
     //printf("interpolating %d\n", counter++);
     for(int i = 0; i<length; i++){
-      XLOC = XLOC + relativex/length;
-      YLOC = YLOC + relativey/length;
+      XLOC = XLOC + relativex/length/5;
+      YLOC = YLOC + relativey/length/5;
       move_cursor(XLOC,YLOC);
     }
   } else printf("%d\n", counter++);
