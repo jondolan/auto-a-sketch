@@ -166,8 +166,8 @@ void G_CODE_00(double x, double y){
   double realy = y;
   double relativex = realx-XLOC;
   double relativey = realy-YLOC;
-  double dist = sqrt(relativex*relativex + relativey*relativey);
-  int length = int(dist)*5;
+  double dist = sqrt(relativex*relativex + relativey*relativey)*5;
+  int length = int(dist);
   //if (length > 0) printf("interpolate length %d\n", length);
   if (counter > 600) { 
     //printf("interpolating %d\n", counter++);
