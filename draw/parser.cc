@@ -15,6 +15,7 @@ int x, y;
 
 int draw = 0;
 int simulate = 0;
+int counter = 0;
 
 void parse_file(char * filename, int to_draw, int to_simulate) {
 
@@ -76,12 +77,21 @@ void parse_file(char * filename, int to_draw, int to_simulate) {
 
   file.close();
 
-  scale = 1500/(xmax-xmin);
-  if(1000/(ymax-ymin)<scale)
-    scale = 1000/(ymax-ymin);
+  scale = 22500.0/(xmax-xmin);
+  if(14500.0/(ymax-ymin)<scale)
+    scale = 14500.0/(ymax-ymin);
   xshift = 0-xmin;
   yshift = 0-ymin;
 
+  cout<<"xmin: " << xmin << "\n";
+  cout<<"xmax: " << xmax << "\n";
+  cout<<"ymin: " << ymin << "\n";
+  cout<<"ymax: " << ymax << "\n";
+
+  cout<<"new xmin: " << (xmin+xshift)*scale << "\n";
+  cout<<"new xmax: " << (xmax+xshift)*scale << "\n";
+  cout<<"new ymin: " << (ymin+yshift)*scale << "\n";
+  cout<<"new ymax: " << (ymax+yshift)*scale << "\n";
 
   ifstream in(filename);
   if(!in){
@@ -139,36 +149,34 @@ void parse_file(char * filename, int to_draw, int to_simulate) {
   }
   in.close();
 
-  cout<<"xmin: " << xmin << "\n";
-  cout<<"xmax: " << xmax << "\n";
-  cout<<"ymin: " << ymin << "\n";
-  cout<<"ymax: " << ymax << "\n";
-
 }
 
 void move_cursor(double x,double y){
-  x = (x+xshift)*scale-500;
-  y = (y+yshift)*scale-500;
-  if (count % 50 == 49) {
-    if (simulate) fprintf(process, "%f,%f\n", x, y);
+  x = (x+xshift)*scale;
+  y = (y+yshift)*scale;
+  //if (count % 3 == 1) {
+    if (simulate) { fprintf(process, "%f,%f\n", x, y); fflush(process); }
     if (draw) gotoXY(x,y);
-    count = 0;
-  } else count++;
+   // count = 0;
+  //} else count++;
 }
 
 void G_CODE_00(double x, double y){
   double realx = x;
   double realy = y;
-  double relativex = 0;
-  double relativey = 0;
-  double length = 0;
-  relativex = realx-XLOC;
-  relativey = realy-YLOC;
-  for(int i = 0; i<length; i++){
-    XLOC = XLOC + relativex/20;
-    YLOC = YLOC + relativey/20;
-    move_cursor(XLOC,YLOC);
-  }
+  double relativex = realx-XLOC;
+  double relativey = realy-YLOC;
+  double dist = sqrt(relativex*relativex + relativey*relativey);
+  int length = int(dist/0.1);
+  //if (length > 0) printf("interpolate length %d\n", length);
+  if (counter > 600) { 
+    //printf("interpolating %d\n", counter++);
+    for(int i = 0; i<length; i++){
+      XLOC = XLOC + relativex/length;
+      YLOC = YLOC + relativey/length;
+      move_cursor(XLOC,YLOC);
+    }
+  } else printf("%d\n", counter++);
   XLOC = x;
   YLOC = y;
   move_cursor(XLOC,YLOC);
