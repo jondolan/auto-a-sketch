@@ -13,6 +13,9 @@ Original Nasa Logo
 
 Nasa logo drawn on an Etch-A-Sketch
 
+## Video Link
+https://drive.google.com/open?id=1iK7EF55oWCxVdryQtdqKZvkzni6pK3Hb
+
 ## Parts
 * Geared DC Motors
 * Motor Controllers
