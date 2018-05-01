@@ -5,4 +5,4 @@ The Auto-A-Sketch is a raspberry pi and arduino based project. The system draws 
 
 Picture
 
-![alt text](https://raw.github.com/jondolan/auto-a-sketch/blob/master/images/nasaworm.jpg)
+![alt text](https://raw.github.com/jondolan/auto-a-sketch/blob/master/images/nasaworm.jpg?raw=true)
