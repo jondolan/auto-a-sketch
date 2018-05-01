@@ -6,3 +6,9 @@ The Auto-A-Sketch is a raspberry pi and arduino based project. The system draws 
 Picture
 
 ![alt text](https://github.com/jondolan/auto-a-sketch/blob/master/images/nasaworm.jpg?raw=true)
+
+Original Nasa Logo
+
+![alt text](https://drive.google.com/open?id=1iK7EF55oWCxVdryQtdqKZvkzni6pK3Hb)
+
+Nasa logo drawn on an Etch-A-Sketch
