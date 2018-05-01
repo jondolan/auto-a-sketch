@@ -19,15 +19,15 @@ Nasa logo drawn on an Etch-A-Sketch
 https://drive.google.com/open?id=1rDCuUlOLcpyP9IXyiEQ-IIzM8CH1AX6q
 
 ## Parts
-* Geared DC Motors
-* Motor Controllers
-* Arduino
-* Raspberry Pi - Running Ubuntu
-* Etch-A-Sketch
-* 3D printed knob to motor connectors
-* Mounting System
+* 2x Geared DC Motors
+* 1x Motor Controllers
+* 1x Arduino
+* 1x Raspberry Pi - Running Ubuntu
+* 1x Etch-A-Sketch
+* 2x 3D printed knob to motor connectors
+* 1x Mounting System
 * Wires
-* Motor Power Supply
+* 1x Motor Power Supply
 
 ## Software Implementation
 The Node.js script converts JPEG to an SVG and uses an on online tool to convert the SVG to G-code.
