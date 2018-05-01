@@ -9,6 +9,6 @@ Picture
 
 Original Nasa Logo
 
-![alt text](https://drive.google.com/open?id=1iK7EF55oWCxVdryQtdqKZvkzni6pK3Hb)
+![alt text](https://github.com/jondolan/auto-a-sketch/blob/master/images/Screen%20Shot%202018-05-01%20at%203.14.48%20PM.png?raw=true)
 
 Nasa logo drawn on an Etch-A-Sketch
