@@ -22,7 +22,10 @@ https://drive.google.com/open?id=1rDCuUlOLcpyP9IXyiEQ-IIzM8CH1AX6q
 * Arduino
 * Raspberry Pi - Running Ubuntu
 * Etch-A-Sketch
-
+* 3D printed knob to motor connectors
+* Mounting System
+* Wires
+* Motor Power Supply
 
 ## Software Implementation
 The Node.js script converts JPEG to an SVG and uses an on online tool to convert the SVG to G-code.
