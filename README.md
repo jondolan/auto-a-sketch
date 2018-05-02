@@ -1,6 +1,6 @@
 # Auto-A-Sketch
 Georgia Institute of Technology ECE 4180 Spring 2017
-Team Members: Jon Dolan, Austin Spalding, Eric Rafalovsky
+Team Members: Jon Dolan, Austin Norwood, Eric Rafalovsky
 
 ## Introduction
 The Auto-A-Sketch is a raspberry pi and arduino based project. The system draws JPEG images on an Etch-A-Sketch. The pi generates motor instructions, and the arduino operates as a position motor controller. A simulator also shows the image on a monitor as the image is drawn on the Etch-A-Sketch.
