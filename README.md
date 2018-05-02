@@ -1,5 +1,5 @@
 # Auto-A-Sketch
-ECE 4180 Sring 2017
+Georgia Institute of Technology ECE 4180 Spring 2017
 Team Members: Jon Dolan, Austin Spalding, Eric Rafalovsky
 
 ## Introduction
